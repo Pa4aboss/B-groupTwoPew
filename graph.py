@@ -47,21 +47,21 @@ class Graph:
 
     def dfs(self, start, visited=None, sort=None): #Объект, Начальная вершина, посещенные вершины, массив сортировки
     #Поиск в глубину
+        node_s = deque()
+        node_s.append(start)
         if visited is None:
-            visited = []
+            visited = set()
         if sort is None:
             sort = []
 
-        visited.append(start)
-
-        if start not in self.graph:
-            sort.append(start)
-            return visited
-
-        for u in self.graph[start]:
-            if u not in visited:
-                self.dfs(u, visited, sort)
-        sort.append(start)
+        while node_s:
+            node = node_s.pop()
+            if node not in visited:
+                sort.append(node)
+                visited.add(node)
+                if node not in self.graph:
+                    continue
+                node_s.extend(set(self.graph[node]) - visited)
         return visited
 
     def dfs1(self, cl, p, v, st_end): #Объект, ЦветВершины, Предок, НачальнаяВершина, массив для записи начала и конца цикла
@@ -112,7 +112,7 @@ class Graph:
     def topological_sort(self): #Объект
     #Топологическая сортировка
         print(self.graph.keys())
-        visited = []
+        visited = set()
         res = []
 
         for i in self.vertices.keys():
@@ -131,15 +131,15 @@ class Graph:
 
     def strong_connected_comps(self): #Объект
     #Расчет количества сильносвязных компонентов
-        visited1 = []
+        visited1 = set()
         #запускаем ДФС для графа
         for u in self.graph:
             if u not in visited1:
                 self.dfs(u, visited1)
         #Транспонируем граф и запускаем ДФС
         gt = self.transpose()
-        visited1 = list(reversed(visited1))
-        visited2 = []
+        visited1 = list(reversed(list(visited1)))
+        visited2 = set()
         num_comps = 0
         for i in range(0, len(visited1)):
             v = visited1[len(visited1) - 1 - i]
