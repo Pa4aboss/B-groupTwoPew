@@ -2,7 +2,7 @@ import graphviz
 
 
 class Node:    
-    def __init__(self, num, obj=None):
+    def __init__(self, num, obj=None): #Объект, НомерВершины, Данные
         #Параметры узла
         self.data = obj
         #Номер узла
@@ -10,7 +10,7 @@ class Node:
 
 
 class Graph:
-    def __init__(self, directed=False):
+    def __init__(self, directed=False): #Объект, Флаг ориентированости
         #список смежности
         self.graph = dict()
 	    #список вершин
@@ -22,11 +22,11 @@ class Graph:
 	    # конец пути
         self.finish = 0
 
-    def add_node(self, e1):
+    def add_node(self, e1): #Объект, вершина
 	#Добовляем узел
         self.vertices[e1.num] = e1
 
-    def add_edge(self, e1, e2):
+    def add_edge(self, e1, e2): #Объект, вершина1,вершина2
         #Добовляем вершины
         if e1 not in self.vertices:
             self.vertices[e1.num] = e1
@@ -45,7 +45,7 @@ class Graph:
                 self.graph[e2.num] = []
             self.graph[e2.num].append(e1.num)
 
-    def dfs(self, start, visited=None, sort=None):
+    def dfs(self, start, visited=None, sort=None): #Объект, Начальная вершина, посещенные вершины, массив сортировки
     #Поиск в глубину
         if visited is None:
             visited = []
@@ -64,7 +64,7 @@ class Graph:
         sort.append(start)
         return visited
 
-    def dfs1(self, cl, p, v, st_end):
+    def dfs1(self, cl, p, v, st_end): #Объект, ЦветВершины, Предок, НачальнаяВершина, массив для записи начала и конца цикла
     # Поиск в глубину для поиска цикла
         cl[v] = 1
         if v not in self.graph:
@@ -83,7 +83,7 @@ class Graph:
         cl[v] = 2
         return False
 
-    def find_cycle(self):
+    def find_cycle(self): #Объект
     #Поиск цикла
         p = dict()  #Предки
         cl = dict() #Цвета вершин
@@ -109,7 +109,7 @@ class Graph:
             cycle.reverse()
             return cycle
 
-    def topological_sort(self):
+    def topological_sort(self): #Объект
     #Топологическая сортировка
         print(self.graph.keys())
         visited = []
@@ -121,7 +121,7 @@ class Graph:
         res.reverse()
         return res
 
-    def transpose(self):
+    def transpose(self): #Объект
     #Транспонирование графа
         gt = Graph(not self.undirected)
         for u in self.graph:
@@ -129,7 +129,7 @@ class Graph:
                 gt.add_edge(self.vertices[v], self.vertices[u])
         return gt
 
-    def strong_connected_comps(self):
+    def strong_connected_comps(self): #Объект
     #Расчет количества сильносвязных компонентов
         visited1 = []
         #запускаем ДФС для графа
@@ -149,7 +149,7 @@ class Graph:
 
         return num_comps
 
-    def draw_graph(self, graph_name, extension):
+    def draw_graph(self, graph_name, extension): #Объект, ИмяГрафа, Расширение, Ребра для пути 
      #Отрисовка графа
         drew = [] #массив уже отрисованных ребер
         #Проверка ориентированости
