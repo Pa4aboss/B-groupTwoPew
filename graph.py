@@ -84,18 +84,22 @@ class Graph:
         return False
 
     def find_cycle(self):
-        p = dict()
-        cl = dict()
+    #Поиск цикла
+        p = dict()  #Предки
+        cl = dict() #Цвета вершин
+        #Инициализация
         for u in list(self.vertices.keys()):
             p[u] = -1
             cl[u] = 0
         st_end = [-1] * 2
+        #Запускаем ДФС для каждой вершины
         for i in self.graph:
             if self.dfs1(cl, p, i, st_end):
                 break
+        #Проверка существования цикла        
         if st_end[0] == -1:
             return False
-        else:
+        else: #Вывод цикла
             cycle = []
             v = st_end[1]
             while v != st_end[0]:
@@ -106,6 +110,7 @@ class Graph:
             return cycle
 
     def topological_sort(self):
+    #Топологическая сортировка
         print(self.graph.keys())
         visited = []
         res = []
@@ -117,6 +122,7 @@ class Graph:
         return res
 
     def transpose(self):
+    #Транспонирование графа
         gt = Graph(not self.undirected)
         for u in self.graph:
             for v in self.graph[u]:
@@ -124,11 +130,13 @@ class Graph:
         return gt
 
     def strong_connected_comps(self):
+    #Расчет количества сильносвязных компонентов
         visited1 = []
+        #запускаем ДФС для графа
         for u in self.graph:
             if u not in visited1:
                 self.dfs(u, visited1)
-
+        #Транспонируем граф и запускаем ДФС
         gt = self.transpose()
         visited1 = list(reversed(visited1))
         visited2 = []
