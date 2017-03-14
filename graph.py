@@ -103,7 +103,7 @@ class Graph:
         return res
 
     def transpose(self):
-        gt = Graph()
+        gt = Graph(not self.undirected)
         for u in self.graph:
             for v in self.graph[u]:
                 gt.add_edge(self.vertices[v], self.vertices[u])
