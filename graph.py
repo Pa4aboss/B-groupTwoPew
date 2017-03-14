@@ -117,7 +117,7 @@ class Graph:
 
         for i in self.vertices.keys():
             if i not in visited:
-                self.dfs(i, visited, res)
+                visited = self.dfs(i, visited, res)
         res.reverse()
         return res
 
@@ -135,7 +135,7 @@ class Graph:
         #запускаем ДФС для графа
         for u in self.graph:
             if u not in visited1:
-                self.dfs(u, visited1)
+                visited1 = self.dfs(u, visited1)
         #Транспонируем граф и запускаем ДФС
         gt = self.transpose()
         visited1 = list(reversed(list(visited1)))
@@ -144,7 +144,7 @@ class Graph:
         for i in range(0, len(visited1)):
             v = visited1[len(visited1) - 1 - i]
             if v not in visited2:
-                gt.dfs(v, visited2)
+                visited2 = gt.dfs(v, visited2)
                 num_comps += 1
 
         return num_comps
